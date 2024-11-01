@@ -25,7 +25,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('ЧЕ ЗЫРИШЬ'),
-        backgroundColor: Colors.green[600],
+        backgroundColor: const Color(0xff33568A),
       ),
       body: const App(),
       drawer: const MyDrawer(),
@@ -57,7 +57,7 @@ class MyDrawer extends StatelessWidget {
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
             child: UserAccountsDrawerHeader (
-              decoration: const BoxDecoration(color: Colors.green),
+              decoration: const BoxDecoration(color: const Color(0xff33568A)),
               accountName: const Text('Кися'),
               accountEmail: const Text("home@dartflutter.ru"),
               currentAccountPicture: Container(
