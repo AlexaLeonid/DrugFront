@@ -3,21 +3,51 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(const MyApp());
 }
-
-class MyApp extends StatelessWidget {
-
+class MyApp extends StatefulWidget { // Делаем MyApp StatefulWidget
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.system; // Состояние для themeMode
+
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
+    return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: const ColorScheme.light(
+          brightness:  Brightness.light,
+          primary: Color(0xff33568A),
+         // secondary: Color(0xff6200EE),
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: const ColorScheme.dark(
+          brightness:  Brightness.dark,
+          primary: Color(0xff33568A),
+          // secondary: Color(0xff6200EE),
+        ),
+      ),
+      themeMode: _themeMode, // Используем _themeMode
+      home: MyHomePage(onThemeChange: _changeTheme), // Передаем функцию изменения темы
     );
+  }
+
+  void _changeTheme(ThemeMode newThemeMode) {
+    setState(() { // Обновляем состояние
+      _themeMode = newThemeMode;
+    });
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+  final Function(ThemeMode) onThemeChange; // Функция изменения темы
+
+  const MyHomePage({super.key, required this.onThemeChange});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +55,44 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('ЧЕ ЗЫРИШЬ'),
-        backgroundColor: const Color(0xff33568A),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        actions: [
+          ThemeButton(onThemeChange: onThemeChange), // Передаем функцию изменения темы
+        ],
       ),
       body: const App(),
       drawer: const MyDrawer(),
+    );
+  }
+}
+
+class ThemeButton extends StatefulWidget {
+  final Function(ThemeMode) onThemeChange; // Функция изменения темы
+
+  const ThemeButton({super.key, required this.onThemeChange});
+
+  @override
+  State<ThemeButton> createState() => _ThemeButtonState();
+}
+
+class _ThemeButtonState extends State<ThemeButton> {
+  bool isDark = false; // Переменная для отслеживания режима
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'Change brightness mode',
+      child: IconButton(
+        onPressed: () {
+          setState(() {
+            isDark = !isDark;
+            widget.onThemeChange(isDark ? ThemeMode.dark : ThemeMode.light); // Изменяем themeMode в MyApp
+          });
+        },
+        icon: Icon(
+          isDark ? Icons.light_mode : Icons.dark_mode,
+        ),
+      ),
     );
   }
 }
@@ -45,6 +109,7 @@ class App extends StatelessWidget {
   }
 }
 
+
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
 
@@ -57,7 +122,7 @@ class MyDrawer extends StatelessWidget {
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
             child: UserAccountsDrawerHeader (
-              decoration: const BoxDecoration(color: const Color(0xff33568A)),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
               accountName: const Text('Кися'),
               accountEmail: const Text("home@dartflutter.ru"),
               currentAccountPicture: Container(
@@ -96,17 +161,14 @@ class SearchBarDrug extends StatefulWidget {
 }
 
 class _SearchBarDrugState extends State<SearchBarDrug> {
-  bool isDark = false;
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = ThemeData(
-        useMaterial3: true,
-        brightness: isDark ? Brightness.dark : Brightness.light);
 
     return SearchAnchor(
         builder: (BuildContext context, SearchController controller) {
           return SearchBar(
+            backgroundColor:  WidgetStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
             controller: controller,
             padding: const WidgetStatePropertyAll<EdgeInsets>(
                 EdgeInsets.symmetric(horizontal: 16.0)),
@@ -117,21 +179,6 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
               controller.openView();
               },
             leading: const Icon(Icons.search),
-            trailing: <Widget>[
-              Tooltip(
-                message: 'Change brightness mode',
-                child: IconButton(
-                  isSelected: isDark,
-                  onPressed: () {
-                    setState(() {
-                      isDark = !isDark;
-                    });
-                    },
-                  icon: const Icon(Icons.wb_sunny_outlined),
-                  selectedIcon: const Icon(Icons.brightness_2_outlined),
-                ),
-              )
-            ],
           );
           }, suggestionsBuilder:
         (BuildContext context, SearchController controller) {
