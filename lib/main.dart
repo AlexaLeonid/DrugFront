@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'drugPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: _themeMode, // Используем _themeMode
+      //home: MedicinePage(medicineName: 'Парацетамол'),
       home: MyHomePage(onThemeChange: _changeTheme), // Передаем функцию изменения темы
     );
   }
@@ -153,6 +155,50 @@ class MyDrawer extends StatelessWidget {
 }
 
 
+// class SearchBarDrug extends StatefulWidget {
+//   const SearchBarDrug({super.key});
+//
+//   @override
+//   State<SearchBarDrug> createState() => _SearchBarDrugState();
+// }
+//
+// class _SearchBarDrugState extends State<SearchBarDrug> {
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     return SearchAnchor(
+//         builder: (BuildContext context, SearchController controller) {
+//           return SearchBar(
+//             backgroundColor:  WidgetStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
+//             controller: controller,
+//             padding: const WidgetStatePropertyAll<EdgeInsets>(
+//                 EdgeInsets.symmetric(horizontal: 16.0)),
+//             onTap: () {
+//               controller.openView();
+//               },
+//             onChanged: (_) {
+//               controller.openView();
+//               },
+//             leading: const Icon(Icons.search),
+//           );
+//           }, suggestionsBuilder:
+//         (BuildContext context, SearchController controller) {
+//           return List<ListTile>.generate(5, (int index) {
+//             final String item = 'item $index';
+//             return ListTile(
+//               title: Text(item),
+//               onTap: () {
+//                 setState(() {
+//                   controller.closeView(item);
+//                 });
+//                 },
+//             );
+//           });
+//     });
+//   }
+// }
+
 class SearchBarDrug extends StatefulWidget {
   const SearchBarDrug({super.key});
 
@@ -161,39 +207,46 @@ class SearchBarDrug extends StatefulWidget {
 }
 
 class _SearchBarDrugState extends State<SearchBarDrug> {
-
   @override
   Widget build(BuildContext context) {
-
     return SearchAnchor(
-        builder: (BuildContext context, SearchController controller) {
-          return SearchBar(
-            backgroundColor:  WidgetStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
-            controller: controller,
-            padding: const WidgetStatePropertyAll<EdgeInsets>(
-                EdgeInsets.symmetric(horizontal: 16.0)),
+      builder: (BuildContext context, SearchController controller) {
+        return SearchBar(
+          backgroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).colorScheme.primary),
+          controller: controller,
+          padding: const WidgetStatePropertyAll<EdgeInsets>(
+              EdgeInsets.symmetric(horizontal: 16.0)),
+          onTap: () {
+            controller.openView();
+          },
+          onChanged: (_) {
+            controller.openView();
+          },
+          leading: const Icon(Icons.search),
+        );
+      },
+      suggestionsBuilder: (BuildContext context, SearchController controller) {
+        return List<ListTile>.generate(5, (int index) {
+          final String item = 'Лекарство ${index + 1}';
+          return ListTile(
+            title: Text(item),
             onTap: () {
-              controller.openView();
-              },
-            onChanged: (_) {
-              controller.openView();
-              },
-            leading: const Icon(Icons.search),
+              setState(() {
+                controller.closeView(item);
+                // Переход на второй экран с передачей названия лекарства
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DrugPage(medicineName: item),
+                  ),
+                );
+              });
+            },
           );
-          }, suggestionsBuilder:
-        (BuildContext context, SearchController controller) {
-          return List<ListTile>.generate(5, (int index) {
-            final String item = 'item $index';
-            return ListTile(
-              title: Text(item),
-              onTap: () {
-                setState(() {
-                  controller.closeView(item);
-                });
-                },
-            );
-          });
-    });
+        });
+      },
+    );
   }
 }
 
