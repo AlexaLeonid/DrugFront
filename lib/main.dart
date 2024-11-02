@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'drugPage.dart';
+import 'service/drug_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: const Locale('ru', 'RU'),
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: const ColorScheme.light(
@@ -207,6 +209,8 @@ class SearchBarDrug extends StatefulWidget {
 }
 
 class _SearchBarDrugState extends State<SearchBarDrug> {
+  String _searchQuery = ''; // Переменная для хранения текста
+
   @override
   Widget build(BuildContext context) {
     return SearchAnchor(
@@ -232,6 +236,20 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
           return ListTile(
             title: Text(item),
             onTap: () {
+              controller.openView();
+              },
+            onChanged: (value) {
+              setState(() {
+          //      _searchQuery = value; // Обновляем значение при изменении текста
+              });
+              controller.openView();
+              },
+            onSubmitted: (value) async {
+              controller.closeView(value); // Закрываем представление поиска
+              // Отправляем запрос
+              await getDrugInfo(value);
+            },
+            leading: const Icon(Icons.search),
               setState(() {
                 controller.closeView(item);
                 // Переход на второй экран с передачей названия лекарства
