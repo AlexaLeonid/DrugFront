@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testandroid/service/drug_service.dart';
+import '../service/drug_service.dart';
 
 class DrugPage extends StatefulWidget {
   final String medicineName;
