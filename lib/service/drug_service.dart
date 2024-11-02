@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<void> getDrugInfo(String name) async {
-  final url = Uri.parse('http://your-api-url.com/drug/$name');
+  final url = Uri.parse('http://b257-188-17-211-72.ngrok-free.app/v1/drug/$name');
 
   try {
     final response = await http.get(url);
@@ -18,6 +18,6 @@ Future<void> getDrugInfo(String name) async {
       print("Error: ${response.statusCode}");
     }
   } catch (e) {
-    print("Failed to fetch drug info: $e");
+    print("Failed to fetch drug info : $e");
   }
 }

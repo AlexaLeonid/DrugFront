@@ -226,16 +226,34 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
           },
           onChanged: (value) {
             setState(() {
-              //      _searchQuery = value; // Обновляем значение при изменении текста
+              _searchQuery = value; // Обновляем значение при изменении текста
             });
             controller.openView();
           },
-          onSubmitted: (value) async {
-            controller.closeView(value); // Закрываем представление поиска
-            // Отправляем запрос
-            await getDrugInfo(value);
+
+          onSubmitted: (_){
+            controller.closeView(_searchQuery); // Закрываем представление поиска
+            // // Отправляем запрос
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => DrugPage(medicineName: _searchQuery),
+                ),
+              );
           },
           leading: const Icon(Icons.search),
+
+
+        );
+      },
+      viewOnSubmitted : (_searchQuery) async {
+        await getDrugInfo(_searchQuery);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DrugPage(medicineName: _searchQuery),
+          ),
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
@@ -258,6 +276,7 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
           );
         });
       },
+
     );
   }
 }
