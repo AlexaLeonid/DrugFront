@@ -224,8 +224,16 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
           onTap: () {
             controller.openView();
           },
-          onChanged: (_) {
+          onChanged: (value) {
+            setState(() {
+              //      _searchQuery = value; // Обновляем значение при изменении текста
+            });
             controller.openView();
+          },
+          onSubmitted: (value) async {
+            controller.closeView(value); // Закрываем представление поиска
+            // Отправляем запрос
+            await getDrugInfo(value);
           },
           leading: const Icon(Icons.search),
         );
@@ -236,20 +244,6 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
           return ListTile(
             title: Text(item),
             onTap: () {
-              controller.openView();
-              },
-            onChanged: (value) {
-              setState(() {
-          //      _searchQuery = value; // Обновляем значение при изменении текста
-              });
-              controller.openView();
-              },
-            onSubmitted: (value) async {
-              controller.closeView(value); // Закрываем представление поиска
-              // Отправляем запрос
-              await getDrugInfo(value);
-            },
-            leading: const Icon(Icons.search),
               setState(() {
                 controller.closeView(item);
                 // Переход на второй экран с передачей названия лекарства
