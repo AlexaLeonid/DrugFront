@@ -3,7 +3,7 @@ import 'search_bar.dart';
 import 'side_menu.dart';
 
 class MyHomePage extends StatelessWidget {
-  final Function(ThemeMode) onThemeChange; // ??????? ????????? ????
+  final Function(ThemeMode) onThemeChange; // Функция изменения темы
 
   const MyHomePage({super.key, required this.onThemeChange});
 
@@ -12,10 +12,10 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('���� ������'),
+        title: const Text('ЧЕ ЗЫРИШЬ'),
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
-          ThemeButton(onThemeChange: onThemeChange), // ???????? ??????? ????????? ????
+          ThemeButton(onThemeChange: onThemeChange), // Передаем функцию изменения темы
         ],
       ),
       body: const App(),
@@ -25,7 +25,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 class ThemeButton extends StatefulWidget {
-  final Function(ThemeMode) onThemeChange; // ??????? ????????? ????
+  final Function(ThemeMode) onThemeChange; // Функция изменения темы
 
   const ThemeButton({super.key, required this.onThemeChange});
 
@@ -34,7 +34,7 @@ class ThemeButton extends StatefulWidget {
 }
 
 class _ThemeButtonState extends State<ThemeButton> {
-  bool isDark = false; // ?????????? ??? ???????????? ??????
+  bool isDark = false; // Переменная для отслеживания режима
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _ThemeButtonState extends State<ThemeButton> {
         onPressed: () {
           setState(() {
             isDark = !isDark;
-            widget.onThemeChange(isDark ? ThemeMode.dark : ThemeMode.light); // ???????? themeMode ? MyApp
+            widget.onThemeChange(isDark ? ThemeMode.dark : ThemeMode.light); // Изменяем themeMode в MyApp
           });
         },
         icon: Icon(
@@ -61,7 +61,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: SearchBarDrug(),
     );
   }

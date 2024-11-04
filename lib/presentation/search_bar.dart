@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testandroid/presentation/drug_page.dart';
+import 'drug_page.dart';
 
 class SearchBarDrug extends StatefulWidget {
   const SearchBarDrug({super.key});
@@ -9,7 +9,7 @@ class SearchBarDrug extends StatefulWidget {
 }
 
 class _SearchBarDrugState extends State<SearchBarDrug> {
-  String _searchQuery = ''; // Переменная для хранения текста
+  String _searchQuery = ''; // РџРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ С‚РµРєСЃС‚Р°
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +26,14 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
           },
           onChanged: (value) {
             setState(() {
-              _searchQuery = value; // Обновляем значение при изменении текста
+              _searchQuery = value; // РћР±РЅРѕРІР»СЏРµРј Р·РЅР°С‡РµРЅРёРµ РїСЂРё РёР·РјРµРЅРµРЅРёРё С‚РµРєСЃС‚Р°
             });
             controller.openView();
           },
 
           onSubmitted: (_){
-            controller.closeView(_searchQuery); // Закрываем представление поиска
-            // // Отправляем запрос
+            controller.closeView(_searchQuery); // Р—Р°РєСЂС‹РІР°РµРј РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РїРѕРёСЃРєР°
+            // // РћС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃ
 
             Navigator.push(
               context,
@@ -58,13 +58,13 @@ class _SearchBarDrugState extends State<SearchBarDrug> {
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
         return List<ListTile>.generate(5, (int index) {
-          final String item = 'Лекарство ${index + 1}';
+          final String item = 'Р›РµРєР°СЂСЃС‚РІРѕ ${index + 1}';
           return ListTile(
             title: Text(item),
             onTap: () {
               setState(() {
                 controller.closeView(item);
-                // Переход на второй экран с передачей названия лекарства
+                // РџРµСЂРµС…РѕРґ РЅР° РІС‚РѕСЂРѕР№ СЌРєСЂР°РЅ СЃ РїРµСЂРµРґР°С‡РµР№ РЅР°Р·РІР°РЅРёСЏ Р»РµРєР°СЂСЃС‚РІР°
                 Navigator.push(
                   context,
                   MaterialPageRoute(

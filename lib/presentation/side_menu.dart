@@ -13,7 +13,7 @@ class MyDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: UserAccountsDrawerHeader (
               decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
-              accountName: const Text('Кися'),
+              accountName: const Text('РљРёСЃСЏ'),
               accountEmail: const Text("home@dartflutter.ru"),
               currentAccountPicture: Container(
                   decoration: const BoxDecoration(
@@ -27,12 +27,12 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-              title: const Text("О себе"),
+              title: const Text("Рћ СЃРµР±Рµ"),
               leading: const Icon(Icons.account_box),
               onTap: (){}
           ),
           ListTile(
-              title: const Text("Настройки"),
+              title: const Text("РќР°СЃС‚СЂРѕР№РєРё"),
               leading: const Icon(Icons.settings),
               onTap: (){}
           )
